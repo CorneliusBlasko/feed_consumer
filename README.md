@@ -19,7 +19,6 @@ The application exposes the following HTTP endpoints:
 Several considerations and assumptions have been made during the coding of this application.
 
 - All the models are immutable to avoid data modification.
-- The `crc32SensorsData` value is not used to verify the integrity of the data since, well, I don't know how to do it.
 - Debug logs have been placed in both endpoints. However, the default log level is now `INFO`, change it to `DEBUG` in
   the `application.properties` file in order to see the logs printed.
 

@@ -30,9 +30,9 @@ public class ByteArrayToLoadBatchMapper{
     }
 
     /**
-     * Converts a byte[] into a Record.
+     * Converts a ByteBuffer into a Record.
      *
-     * @param recordData The byte array that contains the Record information
+     * @param recordData The ByteBuffer that contains the Record information
      * @return A Record with all the byte array information necessary
      * @throws IOException An IOException can be thrown if the reading process goes wrong
      */
@@ -50,9 +50,9 @@ public class ByteArrayToLoadBatchMapper{
     }
 
     /**
-     * Converts a byte[] into a Sensor collection.
+     * Converts a ByteBuffer into a Sensor collection.
      *
-     * @param sensorData The byte array that contains the SensorCollection information
+     * @param sensorData The ByteBuffer that contains the SensorCollection information
      * @return A SensorCollection with all the byte array information necessary
      * @throws IOException An IOException can be thrown if the reading process goes wrong
      */
@@ -69,9 +69,9 @@ public class ByteArrayToLoadBatchMapper{
     }
 
     /**
-     * Converts a byte[] into a Sensor.
+     * Converts a ByteBuffer into a Sensor.
      *
-     * @param sensorData The byte array that contains the Sensor information
+     * @param sensorData The ByteBuffer that contains the Sensor information
      * @return A Sensor with all the array information necessary
      */
     public Sensor getSensor(ByteBuffer sensorData){
@@ -79,7 +79,7 @@ public class ByteArrayToLoadBatchMapper{
     }
 
     /**
-     * Reads a String which length depends on the next integer in the byte array.
+     * Creates a String based on the next number of bytes (repersented by ByteBuffer.getInt()) length
      *
      * @param stringData The byte array that contains the String information
      * @return A String with all the array information necessary
