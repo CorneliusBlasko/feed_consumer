@@ -18,8 +18,6 @@ The application exposes the following HTTP endpoints:
 
 Several considerations, disclaimers and assumptions have been made during the coding of this application.
 
-- **Disclaimer**: I've not been able to use the `crc32SensorsData` value, I don't know how to use checksums in Java. So
-  as of now the application doesn't check the integrity of the data.
 - All the models are immutable to avoid data modification.
 - Debug logs have been placed in both endpoints. However, the default log level is now `INFO`, change it to `DEBUG` in
   the `application.properties` file in order to see the logs printed.
@@ -63,4 +61,4 @@ In order to use the application, the following steps must be taken:
 There are a few upgrades I would like to introduce in the application if I ever have the time:
 
 - Use `WebFlux` to allow non-blocking operations.
-- Check the integrity of the data using `crc32SensorData`.
+- Use a database for the persistence layer. This would need further analysis of the project's requirements.
