@@ -16,8 +16,9 @@ The application exposes the following HTTP endpoints:
 
 ### Considerations
 
-Several considerations and assumptions have been made during the coding of this application.
+Several considerations, disclaimers and assumptions have been made during the coding of this application.
 
+- **Disclaimer**: I've not been able to use the `crc32SensorsData` value, I don't know how to use checksums in Java. So as of now the application doesn't check the integrity of the data.  
 - All the models are immutable to avoid data modification.
 - Debug logs have been placed in both endpoints. However, the default log level is now `INFO`, change it to `DEBUG` in
   the `application.properties` file in order to see the logs printed.
@@ -49,7 +50,7 @@ In order to use the application, the following steps must be taken:
        - On Linux/MacOS: run `./gradlew clean build` in the project root folder.
        - On Windows: run `gradle clean build` in the project root folder.
    2. Run it:
-      - Go to `sparta_feed_consumer\build\libs\` and run `java -jar sparta_server-0.0.1-SNAPSHOT.jar`.
+      - Go to `feed_consumer\build\libs\` and run `java -jar sparta_server-0.0.1-SNAPSHOT.jar`.
 3. Second launch option: run the spring boot command.
     - On Linux/MacOS: run `./gradlew bootRun` in the project root folder.
     - On Windows: run `gradle bootRun` in the project root folder.

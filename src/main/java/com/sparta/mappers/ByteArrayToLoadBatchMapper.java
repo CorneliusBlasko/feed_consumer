@@ -6,7 +6,6 @@ import com.sparta.models.Sensor;
 import com.sparta.models.SensorCollection;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.List;
 @Component
 public class ByteArrayToLoadBatchMapper{
 
-    public LoadBatch convert(byte[] input) throws IOException{
+    public LoadBatch convert(byte[] input){
         List<Record> records = new ArrayList<>();
 
         ByteBuffer buffer = ByteBuffer.wrap(input);
@@ -34,9 +33,8 @@ public class ByteArrayToLoadBatchMapper{
      *
      * @param recordData The ByteBuffer that contains the Record information
      * @return A Record with all the byte array information necessary
-     * @throws IOException An IOException can be thrown if the reading process goes wrong
      */
-    private Record getRecord(ByteBuffer recordData) throws IOException{
+    private Record getRecord(ByteBuffer recordData){
         long recordIndex = recordData.getLong();
         long timestamp = recordData.getLong();
         String city = getString(recordData);
@@ -54,9 +52,8 @@ public class ByteArrayToLoadBatchMapper{
      *
      * @param sensorData The ByteBuffer that contains the SensorCollection information
      * @return A SensorCollection with all the byte array information necessary
-     * @throws IOException An IOException can be thrown if the reading process goes wrong
      */
-    private SensorCollection getSensorCollection(ByteBuffer sensorData) throws IOException{
+    private SensorCollection getSensorCollection(ByteBuffer sensorData){
         int numberOfSensors = sensorData.getInt();
         List<Sensor> sensors = new ArrayList<>();
 
@@ -79,7 +76,7 @@ public class ByteArrayToLoadBatchMapper{
     }
 
     /**
-     * Creates a String based on the next number of bytes (repersented by ByteBuffer.getInt()) length
+     * Creates a String based on the next number of bytes (represented by ByteBuffer.getInt()) length
      *
      * @param stringData The byte array that contains the String information
      * @return A String with all the array information necessary
