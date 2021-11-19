@@ -8,6 +8,7 @@ public class Utils{
 
     /**
      * Converts the contents of the testdata.txt file into a byte[].
+     *
      * @return The byte[] representation of the text file content
      * @throws IOException An IOException is thrown if something goes wrong
      */

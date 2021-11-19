@@ -14,8 +14,8 @@ import java.io.IOException;
 @RestController
 public class MainController{
 
-    private final MainService service;
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private final MainService service;
 
     public MainController(ApplicationContext context){
         this.service = context.getBean(MainService.class);
