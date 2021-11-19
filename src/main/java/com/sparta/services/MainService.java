@@ -7,6 +7,8 @@ import com.sparta.repositories.MapRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class MainService{
 
@@ -24,7 +26,7 @@ public class MainService{
      * @param content The byte array containing all the information
      * @return The LoadBatch model representing the byte[] information
      */
-    public LoadBatch convert(byte[] content){
+    public LoadBatch convert(byte[] content) throws IOException{
         return this.mapper.convert(content);
     }
 
