@@ -6,15 +6,19 @@ import com.sparta.models.Sensor;
 import com.sparta.models.SensorCollection;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.CRC32;
 
 @Component
 public class ByteArrayToLoadBatchMapper{
 
-    public LoadBatch convert(byte[] input){
+    public LoadBatch convert(byte[] input) throws IOException{
         List<Record> records = new ArrayList<>();
 
         ByteBuffer buffer = ByteBuffer.wrap(input);
@@ -34,13 +38,15 @@ public class ByteArrayToLoadBatchMapper{
      * @param recordData The ByteBuffer that contains the Record information
      * @return A Record with all the byte array information necessary
      */
-    private Record getRecord(ByteBuffer recordData){
+    private Record getRecord(ByteBuffer recordData) throws IOException{
         long recordIndex = recordData.getLong();
         long timestamp = recordData.getLong();
         String city = getString(recordData);
         int numberBytesSensorData = recordData.getInt();
         SensorCollection sensorsData = getSensorCollection(recordData);
         long crc32SensorsData = recordData.getLong();
+
+        check(crc32SensorsData, sensorsData);
 
         return Record.builder().recordIndex(recordIndex).timestamp(timestamp).city(city)
                      .numberBytesSensorData(numberBytesSensorData).sensorsData(sensorsData)
@@ -87,6 +93,29 @@ public class ByteArrayToLoadBatchMapper{
         stringData.get(dst, 0, numberOfBytes);
         ByteBuffer buffer = ByteBuffer.wrap(dst);
         return StandardCharsets.UTF_8.decode(buffer).toString();
+    }
+
+    private void check(long crc32SensorsData, SensorCollection sensorsData) throws IOException {
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(bos);
+
+        dos.writeInt(sensorsData.getNumberOfSensors());
+
+        for (Sensor sensor : sensorsData.getSensors()) {
+            dos.writeInt(sensor.getId().getBytes().length);
+            dos.write(sensor.getId().getBytes());
+            dos.writeInt(sensor.getMeasure());
+        }
+
+        dos.flush();
+
+        CRC32 checksum = new CRC32();
+        checksum.update(bos.toByteArray());
+
+        if(checksum.getValue() != crc32SensorsData) {
+            throw new RuntimeException("Checksum failed!");
+        }
     }
 
 }
