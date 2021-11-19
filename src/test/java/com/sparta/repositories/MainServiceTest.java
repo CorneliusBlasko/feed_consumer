@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
-public class MapRepositoryTest{
+public class MainServiceTest{
 
     private MainService service;
     private ByteArrayToLoadBatchMapper mapper;
@@ -37,6 +37,7 @@ public class MapRepositoryTest{
     public void clean(){
         this.service = null;
         this.mapper = null;
+        this.loadBatch = null;
     }
 
     @Test
