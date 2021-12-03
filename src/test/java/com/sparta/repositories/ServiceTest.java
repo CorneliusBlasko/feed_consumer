@@ -2,7 +2,8 @@ package com.sparta.repositories;
 
 import com.sparta.mappers.ByteArrayToLoadBatchMapper;
 import com.sparta.models.LoadBatch;
-import com.sparta.services.MainService;
+import com.sparta.services.CommandService;
+import com.sparta.services.QueryService;
 import com.sparta.testutils.Utils;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -10,9 +11,10 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
-public class MainServiceTest{
+public class ServiceTest {
 
-    private MainService service;
+    private CommandService commandService;
+    private QueryService queryService;
     private ByteArrayToLoadBatchMapper mapper;
     private LoadBatch loadBatch;
 
@@ -30,12 +32,13 @@ public class MainServiceTest{
         Mockito.doReturn(this.mapper).when(contextMock).getBean(ByteArrayToLoadBatchMapper.class);
 
         //Service
-        this.service = new MainService(contextMock);
+        this.commandService = new CommandService(contextMock);
+        this.queryService = new QueryService(contextMock);
     }
 
     @AfterEach
     public void clean(){
-        this.service = null;
+        this.commandService = null;
         this.mapper = null;
         this.loadBatch = null;
     }
@@ -43,20 +46,20 @@ public class MainServiceTest{
     @Test
     @DisplayName("Sanity test")
     public void test_00(){
-        Assertions.assertNotNull(this.service);
+        Assertions.assertNotNull(this.commandService);
         Assertions.assertNotNull(this.mapper);
     }
 
     @Test
     @DisplayName("Repository load test")
     public void test_01(){
-        Assertions.assertEquals(360,this.service.save(this.loadBatch,"MockProvider"));
+        Assertions.assertEquals(360,this.commandService.saveBatch(this.loadBatch,"MockProvider"));
     }
 
     @Test
     @DisplayName("Repository save test")
     public void test_02(){
-        this.service.save(this.loadBatch,"MockProvider");
-        Assertions.assertEquals(360,this.service.findByProvider("MockProvider"));
+        this.commandService.saveBatch(this.loadBatch,"MockProvider");
+        Assertions.assertEquals(360,this.queryService.findByProvider("MockProvider"));
     }
 }
