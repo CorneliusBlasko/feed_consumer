@@ -1,12 +1,13 @@
 package com.sparta.repositories;
 
 import com.sparta.models.Record;
+import com.sparta.repositories.interfaces.IRepository;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MapRepository{
+public class MapRepository implements IRepository {
 
     private final MultiValuedMap<String,Record> mapRepository;
 
@@ -21,7 +22,8 @@ public class MapRepository{
      * @param provider The provider to whom this record belong
      * @return The Record that's been persisted
      */
-    public Boolean save(Record record,String provider){
+    @Override
+    public Boolean saveRecord(Record record,String provider){
         return this.mapRepository.put(provider,record);
     }
 
@@ -31,6 +33,7 @@ public class MapRepository{
      * @param provider The provider to whom the Records belong
      * @return The amount of Records belonging to this provider
      */
+    @Override
     public int findByProvider(String provider){
         return this.mapRepository.get(provider).size();
     }

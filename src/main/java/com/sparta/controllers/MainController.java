@@ -1,7 +1,8 @@
 package com.sparta.controllers;
 
 import com.sparta.models.LoadBatch;
-import com.sparta.services.MainService;
+import com.sparta.services.CommandService;
+import com.sparta.services.QueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +16,12 @@ import java.io.IOException;
 public class MainController{
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-    private final MainService service;
+    private final CommandService commandService;
+    private final QueryService queryService;
 
     public MainController(ApplicationContext context){
-        this.service = context.getBean(MainService.class);
+        this.commandService = context.getBean(CommandService.class);
+        this.queryService = context.getBean(QueryService.class);
     }
 
     /**
@@ -34,12 +37,12 @@ public class MainController{
     public int load(@PathVariable("provider") String provider,@RequestBody byte[] content) throws IOException{
 
         //Map the contents of the byte array into a LoadBatch model
-        LoadBatch loadBatch = this.service.convert(content);
+        LoadBatch loadBatch = this.commandService.convert(content);
 
         logger.debug("Now loading " + loadBatch.getRecords().size() + " records for provider " + provider);
 
         //Save the model into the database and return the total amount of records persisted
-        return this.service.save(loadBatch,provider);
+        return this.commandService.saveBatch(loadBatch,provider);
     }
 
     /**
@@ -51,7 +54,7 @@ public class MainController{
     @GetMapping("/data/{provider}/total")
     public int total(@PathVariable("provider") String provider){
         logger.debug("Querying records for provider " + provider);
-        return this.service.findByProvider(provider);
+        return this.queryService.findByProvider(provider);
     }
 
 }
