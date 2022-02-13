@@ -19,8 +19,6 @@ IMPORTANT NOTES:
 - The format the data is being sent is at the end of this README.
 - And just in case... to run the jar you need to execute: java -jar sparta-client.jar
 
-If you have any question at anytime, do not hesitate to contact Luis on this email: luis@spartacommodities.com
-
 ### Message format
 
 ```
